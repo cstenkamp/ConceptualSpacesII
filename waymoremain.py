@@ -324,6 +324,8 @@ def print_distance(movie1, movie2, dimensionrepresentation):
     print("Distance between",movie1,"and",movie2,":",abs(np.linalg.norm(dimensionrepresentation[m1]-dimensionrepresentation[m2])))
 
 
+
+
 def find_termcandidates(dataset):
     prettyoften = dict((k, v) for k, v in dataset.numoccurences.items() if 100 <= v <= 10000)
     print([dataset.uplook[i] for i in list(prettyoften.keys())[:10]])
@@ -344,6 +346,8 @@ def find_termcandidates(dataset):
     with open(path+"dataset.pkl", 'wb') as output:
         pickle.dump(dataset, output, pickle.HIGHEST_PROTOCOL)
         print('Saved the dataset as Pickle-File')    
+
+
 
 
 def show_some_stuff(dataset, ppms, mdstrans):
@@ -406,36 +410,19 @@ def run_svm(dataset, PREmdstrans, words, num_dims, shorten=0):
             if dataset.lookup[word] in dataset.reviews[i]:
                 kommtvor[i] = True
     
-
-
     return clf, kommtvor
 
 
 
 
-if __name__ == '__main__':
-    num_dims = 2 #50!
-    shorten = 500
-    
-    dataset = load_dataset()
-    ppms = None #ppms = np.array(get_ppmidata(dataset))
-    mdstrans = make_MDS(dataset, ppms, num_dims) 
-    
-    #show_some_stuff(dataset, ppms, mdstrans)
-    
-    #supportvectormachine = run_svm(dataset, mdstrans, ["comedy","fun"], num_dims, shorten=False)
-    #supportvectormachine = run_svm(dataset, mdstrans, "scary", num_dims, shorten=False)
-    
-    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=shorten)
-    
-    mdstrans = mdstrans[:shorten]    
 
-    print(supportvectormachine.coef_, supportvectormachine.intercept_)
-
+def print_svm(supportvectormachine, mdstrans, num_dims):
 
     if num_dims == 3:
         from mpl_toolkits.mplot3d import Axes3D
         import pylab
+        
+        w = copy.deepcopy(supportvectormachine.coef_[0])
         plt.clf()
         fig = pylab.figure()
         ax = Axes3D(fig)
@@ -443,6 +430,11 @@ if __name__ == '__main__':
         ax.set_ylim3d(-500, 500)
         ax.set_zlim3d(-500, 500)
         ax.scatter(xs = mdstrans[:, 0], ys= mdstrans[:, 1], zs= mdstrans[:, 2], c=kommtvor, cmap=plt.cm.Paired)
+        
+        
+#        plt.plot([0, w[0]*1000000], [0, w[1]*1000000], [0, w[2]*1000000])
+        
+        
         plt.show()    
     
     if num_dims == 2:
@@ -458,11 +450,32 @@ if __name__ == '__main__':
         yy2 = b * xx
         plt.plot(xx, yy2, c="Red")
         
+#        plt.plot([0, -w[0]*1000000], [0, w[1]*1000000])
+                
         # plot the points, and the nearest vectors to the plane
         plt.scatter(mdstrans[:, 0], mdstrans[:, 1], c=kommtvor, cmap=plt.cm.Paired)
     
         plt.gca().set_aspect('equal', adjustable='box')
-        plt.axis([min(xx.extend(yy)),max(xx.extend(yy)),min(xx.extend(yy)),max(xx.extend(yy))])
+        #plt.axis([min(np.concatenate((xx, yy))),max(np.concatenate((xx, yy))),min(np.concatenate((xx, yy))),max(np.concatenate((xx, yy)))])
         plt.show()    
     
+
+
+
+if __name__ == '__main__':
+    num_dims = 2 #50!
+    shorten = 500
+    
+    dataset = load_dataset()
+    ppms = None; ppms = np.array(get_ppmidata(dataset))
+    mdstrans = make_MDS(dataset, ppms, num_dims) 
+    
+    show_some_stuff(dataset, ppms, mdstrans)
+    
+    #supportvectormachine = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=False)
+    #supportvectormachine = run_svm(dataset, mdstrans, "scary", num_dims, shorten=False)
+    
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=shorten)
+    
+#    print_svm(supportvectormachine, mdstrans[:shorten], num_dims)
 
