@@ -2,7 +2,7 @@
 """
 Created on Fri Jun 23 10:50:07 2017
 
-@author: Marie
+@author: csten_000
 """
 import copy
 import collections
@@ -416,7 +416,7 @@ def run_svm(dataset, PREmdstrans, words, num_dims, shorten=0):
 
 
 
-def print_svm(supportvectormachine, mdstrans, num_dims):
+def print_svm(supportvectormachine, kommtvor, mdstrans, num_dims):
 
     if num_dims == 3:
         from mpl_toolkits.mplot3d import Axes3D
@@ -460,6 +460,13 @@ def print_svm(supportvectormachine, mdstrans, num_dims):
         plt.show()    
     
 
+def angle_between(v1, v2):
+    """ Returns the angle in radians between vectors 'v1' and 'v2'::
+            >>> angle_between((1, 0, 0), (0, 1, 0))
+            1.5707963267948966"""
+    v1_u = v1 / np.linalg.norm(v1) #unit_vector
+    v2_u = v2 / np.linalg.norm(v2) #unit_vector
+    return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
 
 
 if __name__ == '__main__':
@@ -470,12 +477,95 @@ if __name__ == '__main__':
     ppms = None; ppms = np.array(get_ppmidata(dataset))
     mdstrans = make_MDS(dataset, ppms, num_dims) 
     
-    show_some_stuff(dataset, ppms, mdstrans)
-    
-    #supportvectormachine = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=False)
-    #supportvectormachine = run_svm(dataset, mdstrans, "scary", num_dims, shorten=False)
+#    show_some_stuff(dataset, ppms, mdstrans)
     
     supportvectormachine, kommtvor = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=shorten)
-    
-#    print_svm(supportvectormachine, mdstrans[:shorten], num_dims)
+    print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)
 
+    ###################################################
+
+    num_dims = 2 #50!
+    shorten = 500
+    
+    dataset = load_dataset()
+    ppms = None; ppms = np.array(get_ppmidata(dataset))
+    mdstrans = make_MDS(dataset, ppms, num_dims) 
+        
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, "scary", num_dims, shorten=shorten)
+    print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)
+    
+    ###################################################
+
+    num_dims = 50 #50!
+    shorten = 500
+    
+    dataset = load_dataset()
+    ppms = None; ppms = np.array(get_ppmidata(dataset))
+    mdstrans = make_MDS(dataset, ppms, num_dims) 
+        
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=shorten)
+    print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)
+    
+    ###################################################
+
+    num_dims = 50 #50!
+    shorten = 500
+    
+    dataset = load_dataset()
+    ppms = None; ppms = np.array(get_ppmidata(dataset))
+    mdstrans = make_MDS(dataset, ppms, num_dims) 
+        
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, "scary", num_dims, shorten=shorten)
+    print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)
+    
+    ###################################################
+
+    num_dims = 50 #50!
+    shorten = 99999999999999
+    
+    dataset = load_dataset()
+    ppms = None; ppms = np.array(get_ppmidata(dataset))
+    mdstrans = make_MDS(dataset, ppms, num_dims) 
+        
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=shorten)
+    print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)
+    
+    ###################################################
+
+
+    num_dims = 50 #50!
+    shorten = 99999999999999
+    
+    dataset = load_dataset()
+    ppms = None; ppms = np.array(get_ppmidata(dataset))
+    mdstrans = make_MDS(dataset, ppms, num_dims) 
+        
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, "scary", num_dims, shorten=shorten)
+    print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)    
+
+
+    ###################################################
+
+    num_dims = 3 #50!
+    shorten = 500
+    
+    dataset = load_dataset()
+    ppms = None; ppms = np.array(get_ppmidata(dataset))
+    mdstrans = make_MDS(dataset, ppms, num_dims) 
+        
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=shorten)
+    print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)
+    
+    ###################################################
+
+    num_dims = 3 #50!
+    shorten = 500
+    
+    dataset = load_dataset()
+    ppms = None; ppms = np.array(get_ppmidata(dataset))
+    mdstrans = make_MDS(dataset, ppms, num_dims) 
+        
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, "scary", num_dims, shorten=shorten)
+    print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)
+    
+        ###################################################
