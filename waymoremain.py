@@ -460,6 +460,8 @@ def print_svm(supportvectormachine, kommtvor, mdstrans, num_dims):
         plt.show()    
     
 
+
+
 def angle_between(v1, v2):
     """ Returns the angle in radians between vectors 'v1' and 'v2'::
             >>> angle_between((1, 0, 0), (0, 1, 0))
@@ -469,7 +471,9 @@ def angle_between(v1, v2):
     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
 
 
-if __name__ == '__main__':
+
+
+def prepare_some_svms():
     num_dims = 2 #50!
     shorten = 500
     
@@ -477,7 +481,7 @@ if __name__ == '__main__':
     ppms = None; ppms = np.array(get_ppmidata(dataset))
     mdstrans = make_MDS(dataset, ppms, num_dims) 
     
-#    show_some_stuff(dataset, ppms, mdstrans)
+    show_some_stuff(dataset, ppms, mdstrans)
     
     supportvectormachine, kommtvor = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=shorten)
     print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)
@@ -568,4 +572,117 @@ if __name__ == '__main__':
     supportvectormachine, kommtvor = run_svm(dataset, mdstrans, "scary", num_dims, shorten=shorten)
     print_svm(supportvectormachine, kommtvor, mdstrans[:shorten], num_dims)
     
-        ###################################################
+
+
+
+if __name__ == '__main__':
+    num_dims = 50
+    shorten = False
+    dataset = load_dataset()
+    ppms = None; #ppms = np.array(get_ppmidata(dataset))
+    mdstrans = make_MDS(dataset, ppms, num_dims) 
+    
+    
+#    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, "scary", num_dims, shorten=shorten)
+#
+#    difference = mdstrans[return_elem("The Shining")]-mdstrans[return_elem("Saw")]
+#    print(angle_between(supportvectormachine.coef_[0],difference))
+#    
+#    difference = mdstrans[return_elem("Saw")]-mdstrans[return_elem("Herbie Fully Loaded")]
+#    print(angle_between(supportvectormachine.coef_[0],difference))
+    
+    
+        
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, ["comedy","hilarious"], num_dims, shorten=shorten)
+
+#    angle_matrix = np.ones([len(dataset.names),len(dataset.names)])*99
+#    for i in range(len(dataset.names)):
+#        for j in range(len(dataset.names)):
+#            if i == j:
+#                continue
+#            difference = mdstrans[i]-mdstrans[j]
+#            angle_matrix[i,j] = angle_between(supportvectormachine.coef_[0],difference)
+#            
+#            
+#    with open(path+"angles_"+"_".join(["comedy","hilarious"])+"_"+str(num_dims)+"D.pkl", 'wb') as output:
+#        pickle.dump(angle_matrix, output, pickle.HIGHEST_PROTOCOL)
+#        print('Saved the angle_matrix as Pickle-File')
+#    
+#    movie1, movie2 = np.unravel_index(angle_matrix.argmin(), angle_matrix.shape)
+#    print(dataset.names[movie1])
+#    print(dataset.names[movie2])
+    
+    difference = mdstrans[return_elem("The Fox &#x26; the Child")]-mdstrans[return_elem("The Toxic Avenger Part II")]
+    print(angle_between(supportvectormachine.coef_[0],difference))
+    
+################################################################################
+    
+    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, "scary", num_dims, shorten=shorten)
+
+#    angle_matrix = np.ones([len(dataset.names),len(dataset.names)])*99
+#    for i in range(len(dataset.names)):
+#        for j in range(len(dataset.names)):
+#            if i == j:
+#                continue
+#            difference = mdstrans[i]-mdstrans[j]
+#            angle_matrix[i,j] = angle_between(supportvectormachine.coef_[0],difference)
+#            
+#            
+#    with open(path+"angles_"+"_".join(["scary"])+"_"+str(num_dims)+"D.pkl", 'wb') as output:
+#        pickle.dump(angle_matrix, output, pickle.HIGHEST_PROTOCOL)
+#        print('Saved the angle_matrix as Pickle-File')
+#    
+#    movie1, movie2 = np.unravel_index(angle_matrix.argmin(), angle_matrix.shape)
+#    print(dataset.names[movie1])
+#    print(dataset.names[movie2])
+    
+    
+    
+    difference = mdstrans[return_elem("Sleepy HollowHeadless Body in Topless Bar")]-mdstrans[return_elem("Asterix and Obelix Meet Cleopatra")]
+    print(angle_between(supportvectormachine.coef_[0],difference))
+    
+    
+    
+################################################################################    
+    
+    
+    
+    
+    
+#    supportvectormachine, kommtvor = run_svm(dataset, mdstrans, ["scary"], num_dims, shorten=shorten)
+#    with open(path+"angles_"+"_".join(["scary"])+"_"+str(num_dims)+"D.pkl", 'rb') as infile:
+#        angle_matrix = pickle.load(infile)
+#        print('Saved the angle_matrix as Pickle-File')
+#
+#
+#    angle_matrix[angle_matrix==99] = 0
+#    angle_matrix = np.tril(angle_matrix)
+#    movie1, movie2 = np.unravel_index(angle_matrix.argmax(), angle_matrix.shape)
+#    print(dataset.names[movie1])
+#    print(dataset.names[movie2])
+#    
+#    difference = mdstrans[return_elem("8MM 2")]-mdstrans[return_elem("Dracula 2000")]
+#    print(angle_between(supportvectormachine.coef_[0],difference))
+    
+    
+    
+#
+#    difference = mdstrans[return_elem("The Sunshine Boys")]-mdstrans[return_elem("Crush")]
+#    print(angle_between(supportvectormachine.coef_[0],difference))
+#    
+#    
+#    difference = mdstrans[return_elem("The Sunshine Boys")]-mdstrans[return_elem("Saw")]
+#    print(angle_between(supportvectormachine.coef_[0],difference))
+#    
+#    
+#    
+#    print_distance("The Shining", "Saw", mdstrans)
+#    print_distance("The Shining", "Herbie Fully Loaded", mdstrans)
+#    print_distance("Herbie Fully Loaded", "Saw", mdstrans)
+#    print_distance("Star Trek V: The Final Frontier", "&#x22;Star Trek: Hidden Frontier&#x22;", mdstrans)
+#    print_distance("Star Trek V: The Final Frontier", "The Shining", mdstrans)
+#    print_distance("Star Trek V: The Final Frontier", "Saw", mdstrans)    
+#    
+#    m1 = return_elem(movie1)
+#    m2 = return_elem(movie2)
+#    print("Distance between",movie1,"and",movie2,":",abs(np.linalg.norm(dimensionrepresentation[m1]-dimensionrepresentation[m2])))
